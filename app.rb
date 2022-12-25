@@ -1,43 +1,25 @@
 require 'rubygems'
 require 'sinatra'
 
-configure do
-  enable :sessions
-end
-
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Hello stranger'
-  end
-end
-
-before '/secure/*' do
-  unless session[:identity]
-    session[:previous_url] = request.path
-    @error = 'Sorry, you need to be logged in to visit ' + request.path
-    halt erb(:login_form)
-  end
+configure :production do
+  enable :reloader
 end
 
 get '/' do
-  erb 'Can you handle a <a href="/secure/place">secret</a>?'
+  erb :index
 end
 
-get '/login/form' do
-  erb :login_form
-end
+post '/' do
+  @user_name = params[:user_name]
+  @user_phome = params[:user_phome]
+  @date_time = params[:date_time]
 
-post '/login/attempt' do
-  session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from
-end
+  @title = 'Thanks!'
+  @message = "Thank you, #{@user_name}, we'll be waiting!"
 
-get '/logout' do
-  session.delete(:identity)
-  erb "<div class='alert alert-message'>Logged out</div>"
-end
+  f = File.open './public/users.txt', 'a'
+  f.write "User; #{@user_name}, Phone: #{@user_phome}, Date and time: #{@date_time}"
+  f.close
 
-get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> has access to!'
+  erb :message
 end
