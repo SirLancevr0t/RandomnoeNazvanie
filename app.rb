@@ -6,19 +6,19 @@ configure :production do
 end
 
 get '/' do
-  erb :index
+  erb :visit_registration_form
 end
 
 post '/' do
   @user_name = params[:user_name]
-  @user_phome = params[:user_phome]
+  @user_phone = params[:user_phone]
   @date_time = params[:date_time]
 
   @title = 'Thanks!'
   @message = "Thank you, #{@user_name}, we'll be waiting!"
 
   f = File.open './public/users.txt', 'a'
-  f.write "User; #{@user_name}, Phone: #{@user_phome}, Date and time: #{@date_time}"
+  f.write "User; #{@user_name}, Phone: #{@user_phone}, Date and time: #{@date_time}"
   f.close
 
   erb :message
