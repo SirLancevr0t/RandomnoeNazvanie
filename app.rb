@@ -23,3 +23,7 @@ post '/' do
 
   erb :message
 end
+
+get '/about' do
+  erb :about
+end
