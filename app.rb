@@ -9,16 +9,17 @@ get '/visit' do
   erb :visit_registration_form
 end
 
-post '/' do
+post '/visit' do
   @user_name = params[:user_name]
   @user_phone = params[:user_phone]
   @date_time = params[:date_time]
+  @master_name = params[:master_name]
 
-  @title = 'Thanks!'
+  @title = 'The appointment has been created!'
   @message = "Thank you, #{@user_name}, we'll be waiting!"
 
   f = File.open './public/users.txt', 'a'
-  f.write " User: #{@user_name}, Phone: #{@user_phone}, Date and time: #{@date_time}"
+  f.write " User: #{@user_name}, Phone: #{@user_phone}, Date and time: #{@date_time}, Master: #{@master_name}"
   f.close
 
   erb :message
