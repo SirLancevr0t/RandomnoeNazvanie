@@ -5,7 +5,7 @@ configure :production do
   enable :reloader
 end
 
-get '/' do
+get '/visit' do
   erb :visit_registration_form
 end
 
@@ -18,7 +18,7 @@ post '/' do
   @message = "Thank you, #{@user_name}, we'll be waiting!"
 
   f = File.open './public/users.txt', 'a'
-  f.write "User; #{@user_name}, Phone: #{@user_phone}, Date and time: #{@date_time}"
+  f.write " User: #{@user_name}, Phone: #{@user_phone}, Date and time: #{@date_time}"
   f.close
 
   erb :message
