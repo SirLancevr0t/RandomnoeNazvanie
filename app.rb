@@ -14,6 +14,10 @@ post '/visit' do
   @user_phone = params[:user_phone]
   @date_time = params[:date_time]
   @master_name = params[:master_name]
+  if @user_name = ''
+    @error = 'Enter your name...'
+    return erb :visit_registration_form
+  end
 
   @title = 'The appointment has been created!'
   @message = "Thank you, #{@user_name}, we'll be waiting!"
