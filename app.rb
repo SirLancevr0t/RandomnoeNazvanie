@@ -6,7 +6,7 @@ configure :production do
 end
 
 get '/visit' do
-  erb :visit_registration_form
+  erb :visit
 end
 
 post '/visit' do
@@ -14,9 +14,16 @@ post '/visit' do
   @user_phone = params[:user_phone]
   @date_time = params[:date_time]
   @master_name = params[:master_name]
-  if @user_name = ''
-    @error = 'Enter your name...'
-    return erb :visit_registration_form
+
+  hh = { :user_name => 'Enter your name.',
+    :user_phone => 'Enter your phone.',
+    :date_time => 'Enter correct date and time.',
+    :master_name => 'Choose your master.' }
+  hh.each do |key, value|
+    if params[key] == ''
+      @error = hh[key]
+      return erb :visit
+    end
   end
 
   @title = 'The appointment has been created!'
